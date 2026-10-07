@@ -318,9 +318,10 @@ function renderPreview(){
   document.body.appendChild(measureRoot);
 
   const title=makePage('title-page');
-  title.page.innerHTML='<h1>'+escapeHtml(project.book.title||'Untitled Book')+'</h1>'+
+  title.content.innerHTML='<h1>'+escapeHtml(project.book.title||'Untitled Book')+'</h1>'+
     (project.book.subtitle?'<div class="subtitle">'+escapeHtml(project.book.subtitle)+'</div>':'')+
     (project.book.author?'<div class="author">'+escapeHtml(project.book.author)+'</div>':'');
+  title.content.classList.add('title-page');
   els.bookPreview.appendChild(title.page);
 
   let pageNo=1;
@@ -332,7 +333,8 @@ function renderPreview(){
     printedPages+=result.pages.length;
     pageNo=result.nextPageNo;
   }
-  els.pageCount.textContent=printedPages+' story page'+(printedPages===1?'':'s')+' + title page';
+  const totalPages=printedPages+1;
+  els.pageCount.textContent=totalPages+' page'+(totalPages===1?'':'s')+' total';
   measureRoot.remove();
 }
 function exportProject(){
