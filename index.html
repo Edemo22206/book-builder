@@ -2,7 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#2f5f52" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Book Builder" />
+  <link rel="manifest" href="manifest.webmanifest" />
   <title>Book Builder</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -37,6 +42,11 @@
     </aside>
 
     <main class="workspace">
+      <div class="mobile-nav">
+        <button id="mobileChaptersBtn">☰ Chapters</button>
+        <div class="mobile-nav-title">Book Builder</div>
+        <button id="mobilePreviewBtn">Preview</button>
+      </div>
       <header class="toolbar">
         <div class="toolbar-left">
           <input id="chapterTitle" class="chapter-title-input" placeholder="Chapter title" />
@@ -86,6 +96,7 @@
       </div>
     </main>
   </div>
+  <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
 
   <template id="paragraphTemplate">
     <div class="block paragraph-block" draggable="true">
@@ -119,5 +130,10 @@
   </template>
 
   <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+    }
+  </script>
 </body>
 </html>
