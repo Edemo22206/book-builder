@@ -249,11 +249,12 @@ function fitParagraph(content,text,opts={}){
 function notesForAnchor(chapter,anchor){
   return (chapter.notes||[]).filter(n=>Math.max(0,Number(n.afterParagraph)||0)===anchor);
 }
-function paginateChapter(chapter,startPageNo){
+function paginateChapter(chapter,startPageNo,measureRoot){
   const output=[];
   let pageNo=startPageNo;
   let current=makePage('chapter-page',pageNo++);
   output.push(current.page);
+  measureRoot.appendChild(current.page);
 
   const heading=document.createElement('div');
   heading.className='chapter-heading';
@@ -268,6 +269,7 @@ function paginateChapter(chapter,startPageNo){
   const newPage=()=>{
     current=makePage('chapter-page continuation-page',pageNo++);
     output.push(current.page);
+    measureRoot.appendChild(current.page);
   };
 
   const addAnchoredNotes=(anchor)=>{
@@ -310,6 +312,11 @@ function renderPreview(){
   trimVars();
   els.bookPreview.innerHTML='';
 
+  document.querySelectorAll('.pagination-sandbox').forEach(el=>el.remove());
+  const measureRoot=document.createElement('div');
+  measureRoot.className='pagination-sandbox';
+  document.body.appendChild(measureRoot);
+
   const title=makePage('title-page');
   title.page.innerHTML='<h1>'+escapeHtml(project.book.title||'Untitled Book')+'</h1>'+
     (project.book.subtitle?'<div class="subtitle">'+escapeHtml(project.book.subtitle)+'</div>':'')+
@@ -320,12 +327,13 @@ function renderPreview(){
   let printedPages=0;
   for(const chapter of project.chapters){
     if(!chapter.body.trim() && !(chapter.notes||[]).length && chapter.title==='Untitled Chapter') continue;
-    const result=paginateChapter(chapter,pageNo);
+    const result=paginateChapter(chapter,pageNo,measureRoot);
     result.pages.forEach(p=>els.bookPreview.appendChild(p));
     printedPages+=result.pages.length;
     pageNo=result.nextPageNo;
   }
   els.pageCount.textContent=printedPages+' story page'+(printedPages===1?'':'s')+' + title page';
+  measureRoot.remove();
 }
 function exportProject(){
   const blob=new Blob([JSON.stringify(project,null,2)],{type:'application/json'});
