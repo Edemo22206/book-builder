@@ -29,11 +29,14 @@ button.small{padding:.45rem .65rem;font-size:.9rem}
 .book-meta input{border:1px solid var(--line);border-radius:8px;padding:.55rem .65rem;background:#fff}
 .chapter-header{display:flex;justify-content:space-between;font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding:8px 2px}
 .chapter-list{display:flex;flex-direction:column;gap:7px;overflow:auto;padding-right:3px}
-.chapter-item{border:1px solid transparent;border-radius:9px;padding:10px;background:transparent;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
+.chapter-item{border:1px solid transparent;border-radius:9px;padding:8px 9px;background:transparent;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
 .chapter-item:hover{background:#fff}
 .chapter-item.active{background:#fff;border-color:var(--line);box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.chapter-item-main{min-width:0;cursor:pointer}
 .chapter-item-title{font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.chapter-item-num{font-size:.72rem;color:var(--muted)}
+.chapter-item-num{font-size:.72rem;color:var(--muted);margin-top:2px}
+.chapter-item-actions{display:flex;gap:3px}
+.chapter-item-actions button{padding:.22rem .38rem;font-size:.72rem;border-radius:6px}
 .sidebar-actions{margin-top:auto;padding-top:16px;display:grid;gap:8px}
 .file-button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:.55rem .75rem;text-align:center;cursor:pointer}
 .workspace{display:flex;flex-direction:column;min-width:0;min-height:0}
@@ -122,6 +125,6 @@ button.small{padding:.45rem .65rem;font-size:.9rem}
   body{background:#fff}
   .app,.sidebar,.workspace,.toolbar,.editor-pane,.pane-title,.preview-controls{display:none!important}
   .preview-pane,.preview-scroller,.book-preview{display:block!important;background:#fff!important;padding:0!important;margin:0!important}
-  .page{box-shadow:none;margin:0;page-break-after:always;width:6in;min-height:9in;height:9in}
-  .page:last-child{page-break-after:auto}
+  .page{box-shadow:none;margin:0;width:6in;min-height:9in;height:auto;overflow:visible;page-break-after:always;break-after:page}
+  .page:last-child{page-break-after:auto;break-after:auto}
 }
