@@ -72,10 +72,27 @@ function renderSidebar(){
   els.chapterCount.textContent=project.chapters.length;
   els.chapterList.innerHTML='';
   project.chapters.forEach((c,i)=>{
-    const item=document.createElement('button');
+    const item=document.createElement('div');
     item.className='chapter-item'+(c.id===activeChapterId?' active':'');
-    item.innerHTML='<span class="chapter-item-title">'+escapeHtml(c.title||'Untitled Chapter')+'</span><span class="chapter-item-num">'+(i+1)+'</span>';
-    item.onclick=()=>{activeChapterId=c.id;renderAll()};
+    const main=document.createElement('div');
+    main.className='chapter-item-main';
+    main.innerHTML='<div class="chapter-item-title">'+escapeHtml(c.title||'Untitled Chapter')+'</div><div class="chapter-item-num">Chapter '+(i+1)+'</div>';
+    main.onclick=()=>{activeChapterId=c.id;renderAll()};
+    const actions=document.createElement('div');
+    actions.className='chapter-item-actions';
+    const up=document.createElement('button');up.textContent='↑';up.title='Move chapter up';up.disabled=i===0;
+    const down=document.createElement('button');down.textContent='↓';down.title='Move chapter down';down.disabled=i===project.chapters.length-1;
+    const del=document.createElement('button');del.textContent='×';del.title='Delete chapter';
+    up.onclick=()=>{if(i>0){[project.chapters[i-1],project.chapters[i]]=[project.chapters[i],project.chapters[i-1]];queueSave();renderAll()}};
+    down.onclick=()=>{if(i<project.chapters.length-1){[project.chapters[i+1],project.chapters[i]]=[project.chapters[i],project.chapters[i+1]];queueSave();renderAll()}};
+    del.onclick=()=>{
+      if(!confirm('Delete this chapter?'))return;
+      project.chapters.splice(i,1);
+      if(activeChapterId===c.id)activeChapterId=project.chapters[Math.min(i,project.chapters.length-1)]?.id||null;
+      queueSave();renderAll();
+    };
+    actions.append(up,down,del);
+    item.append(main,actions);
     els.chapterList.appendChild(item);
   });
 }
