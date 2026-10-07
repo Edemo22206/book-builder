@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Book Builder</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div>
+          <h1>Book Builder</h1>
+          <p>Manuscript editor</p>
+        </div>
+        <button id="newChapterBtn" class="primary small">+ Chapter</button>
+      </div>
+
+      <section class="book-meta">
+        <label>Book title<input id="bookTitle" /></label>
+        <label>Subtitle<input id="bookSubtitle" /></label>
+        <label>Author<input id="bookAuthor" /></label>
+      </section>
+
+      <div class="chapter-header">
+        <span>Chapters</span>
+        <span id="chapterCount"></span>
+      </div>
+      <div id="chapterList" class="chapter-list"></div>
+
+      <div class="sidebar-actions">
+        <button id="exportProjectBtn">Export Project</button>
+        <label class="file-button">Import Project<input id="importProjectInput" type="file" accept="application/json" hidden /></label>
+        <button id="resetBtn" class="danger-ghost">Reset</button>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <header class="toolbar">
+        <div class="toolbar-left">
+          <input id="chapterTitle" class="chapter-title-input" placeholder="Chapter title" />
+          <input id="chapterMeta" class="chapter-meta-input" placeholder="Date / location / contributor line" />
+        </div>
+        <div class="toolbar-right">
+          <button id="addParagraphBtn">+ Paragraph</button>
+          <button id="addNoteBtn">+ Side note</button>
+          <button id="exportPdfBtn" class="primary">Export PDF</button>
+        </div>
+      </header>
+
+      <div class="editor-preview-wrap">
+        <section class="editor-pane">
+          <div class="pane-title">
+            <span>Editor</span>
+            <span id="saveStatus">Saved</span>
+          </div>
+          <div id="blockEditor" class="block-editor"></div>
+        </section>
+
+        <section class="preview-pane">
+          <div class="pane-title preview-title">
+            <span>Print Preview</span>
+            <div class="preview-controls">
+              <label>Trim
+                <select id="trimSize">
+                  <option value="6x9">6 × 9 in</option>
+                  <option value="5.5x8.5">5.5 × 8.5 in</option>
+                  <option value="5x8">5 × 8 in</option>
+                </select>
+              </label>
+              <label>Body
+                <select id="fontSize">
+                  <option value="10.5">10.5 pt</option>
+                  <option value="11" selected>11 pt</option>
+                  <option value="11.5">11.5 pt</option>
+                  <option value="12">12 pt</option>
+                </select>
+              </label>
+            </div>
+          </div>
+          <div id="previewScroller" class="preview-scroller">
+            <div id="bookPreview" class="book-preview"></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <template id="paragraphTemplate">
+    <div class="block paragraph-block" draggable="true">
+      <div class="block-grip">⋮⋮</div>
+      <textarea rows="4" placeholder="Write story text…"></textarea>
+      <div class="block-actions">
+        <button data-action="up" title="Move up">↑</button>
+        <button data-action="down" title="Move down">↓</button>
+        <button data-action="delete" title="Delete">×</button>
+      </div>
+    </div>
+  </template>
+
+  <template id="noteTemplate">
+    <div class="block note-block" draggable="true">
+      <div class="block-grip">⋮⋮</div>
+      <div class="note-fields">
+        <input class="note-heading" placeholder="Side note heading" />
+        <textarea class="note-body" rows="3" placeholder="Short practical truth or observation…"></textarea>
+        <select class="note-align">
+          <option value="right">Right</option>
+          <option value="left">Left</option>
+        </select>
+      </div>
+      <div class="block-actions">
+        <button data-action="up" title="Move up">↑</button>
+        <button data-action="down" title="Move down">↓</button>
+        <button data-action="delete" title="Delete">×</button>
+      </div>
+    </div>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
