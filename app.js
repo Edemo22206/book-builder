@@ -11,14 +11,9 @@ const defaultProject=()=>({
   chapters:[
     {
       id:crypto.randomUUID(),
-      title:"Fireworks at Freedom Park",
-      meta:"November 26, 2024",
-      blocks:[
-        {id:crypto.randomUUID(),type:"paragraph",text:"On Tuesday evening, I went soulwinning with Bro. Nico Barranco and Bro. John Paul Villavito at Freedom Park. We saw a total of four souls saved that evening, but I had one experience that I’ll never forget."},
-        {id:crypto.randomUUID(),type:"paragraph",text:"As we circled the fountain looking for someone to share the Gospel with, I saw a college-aged lady sitting alone with her back toward the capitol building. I hesitated to talk to her at first because I prefer talking to men, but thankfully, I listened to the Spirit’s leading."},
-        {id:crypto.randomUUID(),type:"note",heading:"A small hesitation can become a missed opportunity",body:"Sometimes the hardest part is simply deciding to walk over and speak. The opportunity may disappear before the fear does.",align:"right"},
-        {id:crypto.randomUUID(),type:"paragraph",text:"I approached her, offered her a tract, and invited her to church. After introducing myself and my partners, I found out her name was Jenny and that she was a first-year college student at NORSU."}
-      ]
+      title:"Untitled Chapter",
+      meta:"",
+      blocks:[{id:crypto.randomUUID(),type:"paragraph",text:""}]
     }
   ]
 });
@@ -229,3 +224,15 @@ els.trimSize.addEventListener('change',()=>{project.book.trim=els.trimSize.value
 els.fontSize.addEventListener('change',()=>{project.book.fontSize=els.fontSize.value;queueSave();renderPreview()});
 
 renderAll();
+
+const mobileChaptersBtn=document.querySelector('#mobileChaptersBtn');
+const mobilePreviewBtn=document.querySelector('#mobilePreviewBtn');
+const sidebarBackdrop=document.querySelector('#sidebarBackdrop');
+
+function closeMobileSidebar(){document.body.classList.remove('mobile-sidebar-open')}
+if(mobileChaptersBtn) mobileChaptersBtn.addEventListener('click',()=>document.body.classList.toggle('mobile-sidebar-open'));
+if(sidebarBackdrop) sidebarBackdrop.addEventListener('click',closeMobileSidebar);
+if(mobilePreviewBtn) mobilePreviewBtn.addEventListener('click',()=>{
+  const showing=document.body.classList.toggle('mobile-preview');
+  mobilePreviewBtn.textContent=showing?'Editor':'Preview';
+});
