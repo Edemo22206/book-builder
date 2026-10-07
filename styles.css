@@ -92,7 +92,7 @@ button.small{padding:.45rem .65rem;font-size:.9rem}
 .note-delete{padding:.36rem .52rem;color:var(--danger)}
 .note-options{display:grid;grid-template-columns:1fr 120px;gap:8px;margin-top:7px}
 .note-options label{font-size:.69rem;color:var(--muted);display:grid;gap:3px}
-.preview-scroller{overflow:auto;padding:27px;-webkit-overflow-scrolling:touch}
+.preview-scroller{overflow:auto;padding:27px;-webkit-overflow-scrolling:touch;flex:1;min-height:0;overscroll-behavior:contain}
 .book-preview{margin:0 auto;display:flex;flex-direction:column;gap:18px;align-items:center}
 .page{
   width:var(--page-w);
@@ -239,4 +239,11 @@ button.small{padding:.45rem .65rem;font-size:.9rem}
 @media print{
   .book-preview .page{zoom:1!important}
   .pagination-sandbox{display:none!important}
+}
+
+.book-preview>.page{display:block}
+.preview-pane{overflow:hidden}
+@media(max-width:760px){
+  .preview-scroller{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden}
+  .book-preview{display:flex!important;flex-direction:column!important;align-items:center!important;gap:18px!important;padding-bottom:24px}
 }
