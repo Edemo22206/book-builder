@@ -10,6 +10,7 @@
   <link rel="manifest" href="manifest.webmanifest" />
   <title>Book Builder</title>
   <link rel="stylesheet" href="styles.css" />
+  <style id="dynamicPageStyle">@page{size:6in 9in;margin:0}</style>
 </head>
 <body>
   <div class="app">
@@ -17,7 +18,7 @@
       <div class="brand">
         <div>
           <h1>Book Builder</h1>
-          <p>Manuscript editor</p>
+          <p>Write, arrange, preview, print</p>
         </div>
         <button id="newChapterBtn" class="primary small">+ Chapter</button>
       </div>
@@ -35,8 +36,8 @@
       <div id="chapterList" class="chapter-list"></div>
 
       <div class="sidebar-actions">
-        <button id="exportProjectBtn">Export Project</button>
-        <label class="file-button">Import Project<input id="importProjectInput" type="file" accept="application/json" hidden /></label>
+        <button id="exportProjectBtn">Back Up Project</button>
+        <label class="file-button">Restore Project<input id="importProjectInput" type="file" accept="application/json" hidden /></label>
         <button id="resetBtn" class="danger-ghost">Reset</button>
       </div>
     </aside>
@@ -47,13 +48,13 @@
         <div class="mobile-nav-title">Book Builder</div>
         <button id="mobilePreviewBtn">Preview</button>
       </div>
+
       <header class="toolbar">
         <div class="toolbar-left">
           <input id="chapterTitle" class="chapter-title-input" placeholder="Chapter title" />
           <input id="chapterMeta" class="chapter-meta-input" placeholder="Date / location / contributor line" />
         </div>
         <div class="toolbar-right">
-          <button id="addParagraphBtn">+ Paragraph</button>
           <button id="addNoteBtn">+ Side note</button>
           <button id="exportPdfBtn" class="primary">Export PDF</button>
         </div>
@@ -62,15 +63,32 @@
       <div class="editor-preview-wrap">
         <section class="editor-pane">
           <div class="pane-title">
-            <span>Editor</span>
+            <span>Write</span>
             <span id="saveStatus">Saved</span>
           </div>
-          <div id="blockEditor" class="block-editor"></div>
+          <div class="chapter-editor">
+            <label class="field-label" for="chapterBody">Chapter text</label>
+            <textarea id="chapterBody" class="chapter-body" placeholder="Write or paste the whole chapter here.
+
+Leave one blank line between paragraphs."></textarea>
+
+            <div class="notes-heading">
+              <div>
+                <strong>Side notes</strong>
+                <small>Attach each note after a paragraph. The note will sit beside the story without taking a full column.</small>
+              </div>
+              <button id="addNoteInlineBtn">+ Add note</button>
+            </div>
+            <div id="notesEditor" class="notes-editor"></div>
+          </div>
         </section>
 
         <section class="preview-pane">
           <div class="pane-title preview-title">
-            <span>Print Preview</span>
+            <div>
+              <span>Print Preview</span>
+              <span id="pageCount" class="page-count"></span>
+            </div>
             <div class="preview-controls">
               <label>Trim
                 <select id="trimSize">
@@ -96,35 +114,26 @@
       </div>
     </main>
   </div>
+
   <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
 
-  <template id="paragraphTemplate">
-    <div class="block paragraph-block" draggable="true">
-      <div class="block-grip">⋮⋮</div>
-      <textarea rows="4" placeholder="Write story text…"></textarea>
-      <div class="block-actions">
-        <button data-action="up" title="Move up">↑</button>
-        <button data-action="down" title="Move down">↓</button>
-        <button data-action="delete" title="Delete">×</button>
-      </div>
-    </div>
-  </template>
-
   <template id="noteTemplate">
-    <div class="block note-block" draggable="true">
-      <div class="block-grip">⋮⋮</div>
-      <div class="note-fields">
-        <input class="note-heading" placeholder="Side note heading" />
-        <textarea class="note-body" rows="3" placeholder="Short practical truth or observation…"></textarea>
-        <select class="note-align">
-          <option value="right">Right</option>
-          <option value="left">Left</option>
-        </select>
+    <div class="note-card">
+      <div class="note-card-top">
+        <input class="note-heading-input" placeholder="Short heading" />
+        <button class="note-delete" title="Delete note">×</button>
       </div>
-      <div class="block-actions">
-        <button data-action="up" title="Move up">↑</button>
-        <button data-action="down" title="Move down">↓</button>
-        <button data-action="delete" title="Delete">×</button>
+      <textarea class="note-body-input" rows="3" placeholder="Practical thought, lesson, or observation…"></textarea>
+      <div class="note-options">
+        <label>Place after paragraph
+          <input class="note-anchor-input" type="number" min="0" step="1" inputmode="numeric" />
+        </label>
+        <label>Side
+          <select class="note-align-input">
+            <option value="right">Right</option>
+            <option value="left">Left</option>
+          </select>
+        </label>
       </div>
     </div>
   </template>
@@ -135,6 +144,5 @@
       window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
     }
   </script>
-  <!-- pages-deploy-trigger -->
 </body>
 </html>
