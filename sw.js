@@ -1,4 +1,4 @@
-const CACHE='book-builder-v3';
+const CACHE='book-builder-v4';
 const ASSETS=['./','./index.html','./styles.css','./app.js','./manifest.webmanifest'];
 self.addEventListener('install',event=>{
   self.skipWaiting();
